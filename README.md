@@ -12,34 +12,57 @@ The objective of simple linear regression in the machine learning area is to mod
 ### Import the libraries
 
 1.  As a standard, we always import three libraries: numpy, matplotlib.pyplot and pandas.
-   ![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/bd225787-d4cc-4338-abbb-0baee78be48f)
-
+   ```
+   import numpy as np
+   import matplotlib.pyplot as plt
+   import pandas as pd
+   ```
 ### Import the Dataset
 
 1. second of all, as always, we specify the .csv file that we will be analizing, using the pandas function, which gives us fast shortcuts to importing it and analizing it (dividing into two sections: dependent and independent variables)
-![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/f915acde-b407-42b7-ae8e-95c0fedb30c7)
 
+   ```
+   dataset = pd.read_csv('Salary_Data.csv')
+   X = dataset.iloc[:, :-1].values
+   y = dataset.iloc[:, -1].values
+   ```
 ### Splitting the dataset into the Training set and Test set
 
-1. After we divide the sections, we have to divide our data into two, the training and test sets, which we'll first learn the data and in the test (about 20% of data) we will make our predictions. 
-![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/b6daa989-9432-45b8-b754-b69ee743a633)
-
-2. What we are doing in the image above is: create two variables for the X (dependent variables) and y (independent variables), one for the training set and another for the test set.
+1. After we divide the sections, we have to divide our data into two, the training and test sets, which we'll first learn the data and in the test (about 20% of data) we will make our predictions.
+   ```
+   from sklearn.model_selection import train_test_split
+   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1/3, random_state = 0)
+   ```
+3. What we are doing in the image above is: create two variables for the X (dependent variables) and y (independent variables), one for the training set and another for the test set.
    
-3. The train_test_split function will make all the subsets for the dataset. The test_size will specify the proportion of the dataset to include in the test split, so 1/3 (the less data in the test split, the more data in the training set will be received and learnt). And the random_state is an optional parameter that allows you to set a seed for the random number generator, which ensures reproducibility.
+4. The train_test_split function will make all the subsets for the dataset. The test_size will specify the proportion of the dataset to include in the test split, so 1/3 (the less data in the test split, the more data in the training set will be received and learnt). And the random_state is an optional parameter that allows you to set a seed for the random number generator, which ensures reproducibility.
 
 ### Training the Simple Linear Regression model on the Training set
-![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/edb48648-4483-456d-ae69-692eca745fe8)
+   ```
+   from sklearn.linear_model import LinearRegression
+   regressor = LinearRegression()
+   regressor.fit(X_train, y_train)
+   ```
 After we make the variables, we have to train them to learn the dataset and eventually make predictions. To do so we call the linearRegression function from the scikit learn linear model library and we use the fit method, which will allow the object to obtain the data from the .csv file.
 
 
 ### Predicting the Test set results
-![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/43349806-3629-415a-9d50-09fa1558ed11)
 
+   ```
+   y_pred = regressor.predict(X_test)
+   ```
 1. Finally, to predict the results received, we have to use the scikit learn method predict on the regressor object the taught the training data, which will need one parameter: the x_test (that stands for the test set of features).
 
 ### Visualising the Training set results
-![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/01debd6d-f3c4-41e9-aa92-1096fba57918)
+   ```
+   plt.scatter(X_train, y_train, color = 'red')
+   plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+   plt.title('Salary vs Experience (Training set)')
+   plt.xlabel('Years of Experience')
+   plt.ylabel('Salary')
+   plt.show()
+   ```
+![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/71ab7e6f-7663-45c5-90a8-39538d6bcbc3)
 
 1. Using the library matplot, we to these simple coding steps that will show the graph obtained by the training set
 2. The code to plot the regression is almost identical everytime, only needing to change the variables.
@@ -47,7 +70,15 @@ After we make the variables, we have to train them to learn the dataset and even
 We can see that the regression line obtained is very optimal, but we still see a lot of dots outside the regressor, and that can cause a percentage of errors.
 
 ### Visualising the training set results
-![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/9350dd1c-46ed-4fa4-8923-0ea80757ee25)
+   ```
+   plt.scatter(X_test, y_test, color = 'red')
+   plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+   plt.title('Salary vs Experience (Test set)')
+   plt.xlabel('Years of Experience')
+   plt.ylabel('Salary')
+   plt.show()
+   ```
+![image](https://github.com/Yudiaramos/REGRESSION-I---Simple-Linear-Regression/assets/71808184/5c863706-955a-4ae4-b60f-5dc2054b8caa)
 
 1. Again, we use the same code but instead of using the training variables, we use the test variables to obtain the predicted results.
 
